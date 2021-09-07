@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin page</title>
+</head>
+<body>
+	<div id="adminPage">
+		<div id="msg">
+				<p><%=msg%></p><br>
+		</div>
+		<form id="creation" action="/admin/edit" method="post">
+			Add a user<br>
+			Name:	
+			<input type="text" name="name">
+			Password:
+			<input type="text" name="password">
+			Type:
+			<select name="type">
+
+				<option value="receivingusers">Recieving User</option>
+				<option value="uploadingusers">Uploading User</option>
+				<option value="admins">Admin User</option>
+			
+			</select>
+			<input type="text" name="method" value="add" style="display: none">
+			<input type="submit" name="submit">
+		</form><br>
+	
+		<form id="deletion" method="post" action="/admin/edit">
+			Delete a user<br>
+			Username:	
+			<input type="text" name="username">
+			Type:
+			<select name="type">
+
+				<option value="receivingusers">Recieving User</option>
+				<option value="uploadingusers">Uploading User</option>
+				<option value="admins">Admin User</option>
+			
+			</select>
+			<input type="text" name="method" value="delete" style="display: none">
+			<input type="submit" name="submit" >
+		</form><br>
+
+		<!-- <form id="show" method="get" action="/admin/edit">
+			Show users<br>
+			<select name="type">
+
+				<option value="ru">Recieving User</option>
+				<option value="uu">Uploading User</option>
+				<option value="au">Admin User</option>
+
+			</select>
+			<input type="submit" name="submit">
+		</form> -->
+	</div>
+</body>
+</html>

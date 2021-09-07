@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GetData Page</title>
+</head>
+<body>
+	<div id="displayPage">
+		<form id="show" method="post" action="/getData/data">
+			Search Users<br>
+			Place:
+			<input type="text" name="place">
+			Blood Group:
+			<select name="type">
+
+				<option value="op">O+</option>
+				<option value="ap">A+</option>
+				<option value="bp">B+</option>
+				<option value="abp">AB+</option>
+				<option value="on">O-</option>
+				<option value="an">A-</option>
+				<option value="bn">B-</option>
+				<option value="abn">AB-</option>
+
+			</select>
+			<input type="submit" name="submit">
+		</form>
+
+		<table style="border: 1px black solid">
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Address</th>
+				<th>Blood Group</th>
+				<th>Phone Number</th>
+				<th>Date Of Infection</th>
+			</tr>
+			<% records.forEach(record=>{ %>
+				<tr>
+					<td><%=record.idpatients%></td>
+					<td><%=record.name%></td>
+					<td><%=record.address%></td>
+					<td><%=record.bloodGroup%></td>
+					<td><%=record.phone%></td>
+					<td><%=record.date%></td>
+				</tr>
+			<% }); %>	
+		</table>
+	</div>
+</body>
+</html>

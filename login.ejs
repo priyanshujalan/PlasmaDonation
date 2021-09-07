@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="stylesheet" type="text/css" href="public/css/login.css">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div id="msgs">
+		<p id="msg"><%=msg%></p>
+	</div>
+	<div id="idPassword">
+		<h2>Login Details</h2>
+		<form action="/<%=action%>" method="post">
+			<input type="text" name="username" placeholder="Username"><br> 
+			<input type="password" name="password" placeholder="Password"><br>
+			<input type="submit" name="submit">
+		</form>
+	</div>
+</body>
+<script src="public/js/login.js"></script>
+</html>
