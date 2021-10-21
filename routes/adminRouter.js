@@ -23,6 +23,7 @@ adminRouter.route('/')
 })
 .post((req, res, next) => {
 	connection.query("SELECT * FROM admins WHERE user=?",[req.body.username],(err,rows)=>{
+		connection.release();
 		if(err){
 			res.send("An error occured");
 			console.log(err);
@@ -65,13 +66,13 @@ adminRouter.route('/edit')
 			else{
 				myQuery = "INSERT INTO "+req.body.type+" SET ?";
 				connection.query(myQuery,[data],(err,rows)=>{
-
 					if(err){
 						console.log(err);
 					}
 					else{
 						res.render('../adminPage.ejs',{msg: "User Added!"});
 					}
+					connection.release();
 				});
 			}
 		});
@@ -87,6 +88,7 @@ adminRouter.route('/edit')
 			else{
 				res.render('../adminPage.ejs',{msg: "User Deleted!"});
 			}
+			connection.release();
 		});
 	}
 });

@@ -85,6 +85,7 @@ receivingRouter.route('/data')
             });
             res.render('../recevingPage.ejs',{records: rows});
         }
+        connection.release();
     });
 });
 
