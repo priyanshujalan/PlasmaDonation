@@ -5,10 +5,10 @@ const bcrypt=require('bcrypt');
 const password=bcrypt.hashSync("Vuz83162",10);
 
 var mysqlConnection = mysql.createConnection({
-	host : 'localhost',
-	user: 'root',
-	password : 'anshu@1767',
-	database : 'plasma'
+	host : 'remotemysql.com:3306',
+	user: '2WbjCHT0R3',
+	password : 'b0TQjh75d9',
+	database : '2WbjCHT0R3'
 });
 
 mysqlConnection.connect((err) => {
