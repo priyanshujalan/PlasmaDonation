@@ -1,7 +1,7 @@
 const path=require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('C:/plasmaDonation/database/database.js');
+const mysql = require('C:/PlasmaDonation/database/database.js');
 const xlsx = require('xlsx');
 const upload = require('express-fileupload');
 const fs = require('fs');
