@@ -11,7 +11,7 @@ adminRouter.use(bodyParser.json());
 adminRouter.use(bodyParser.urlencoded({extended: false}));
 
 const connection = mysqlConnection.mysqlPool;
-
+const mysql = mysqlConnection.mysql;
 
 adminRouter.route('/')
 .all((req,res,next) => {

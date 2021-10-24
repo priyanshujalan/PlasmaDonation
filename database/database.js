@@ -88,8 +88,12 @@ function addAdmin(){
 		if(err)
 			console.log(err)
 		else{
-			let insertQuery = 'INSERT INTO admins SET (?,?)';
-			let query = mysql.format(insertQuery,["priyanshu", password]);
+			var data={
+				user: 'priyanshu',
+				password: bcrypt.hashSync("vuz83162",10) 
+			};
+			let insertQuery = 'INSERT INTO admins SET ?';
+			let query = mysql.format(insertQuery,[data]);
 			connection.query(query, (err, rows)=>{
 				connection.release();
 				if(err)

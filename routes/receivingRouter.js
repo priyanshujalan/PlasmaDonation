@@ -1,9 +1,9 @@
 const path=require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('C:/PlasmaDonation/database/database.js');
+const mysqlConnection = require('C:/PlasmaDonation/database/database.js');
 const bcrypt = require('bcrypt');
-const connection = mysql.mysqlPool;
+const connection = mysqlConnection.mysqlPool;
 
 const receivingRouter = express.Router();
 
@@ -16,21 +16,31 @@ receivingRouter.route('/')
     res.render('../login.ejs',{action: "getData", msg: "" });
 })
 .post((req, res, next) => {
-    connection.query("SELECT * FROM receivingusers WHERE user=?",[req.body.username],(err,rows)=>{
+    connection.getConnection((err, connector)=>{
         if(err){
-            res.send("Error Occured!");
             console.log(err);
         }
-        else if(rows.length==0){
-            res.render('../login.ejs',{action: "getData", msg: "User Doesn't Exist"});
-        }
         else{
-            if(bcrypt.compareSync(req.body.password, rows[0].password)){
-                res.render('../recevingPage.ejs',{records: []});
-            }
-            else{
-                res.render('../login.ejs',{action: "getData", msg: "Incorrect Password!"});
-            }
+            let selectQuery = 'SELECT * FROM receivingusers WHERE user=?';
+			let query = mysql.format(selectQuery,[req.body.username]);
+            connector.query(query,(err,rows)=>{
+                connector.release();
+                if(err){
+                    res.send("Error Occured!");
+                    console.log(err);
+                }
+                else if(rows.length==0){
+                    res.render('../login.ejs',{action: "getData", msg: "User Doesn't Exist"});
+                }
+                else{
+                    if(bcrypt.compareSync(req.body.password, rows[0].password)){
+                        res.render('../recevingPage.ejs',{records: []});
+                    }
+                    else{
+                        res.render('../login.ejs',{action: "getData", msg: "Incorrect Password!"});
+                    }
+                }
+            });
         }
     });
 });
@@ -72,21 +82,28 @@ receivingRouter.route('/data')
             break;
 
     }
-    connection.query('SELECT * FROM patients WHERE address LIKE ? AND bloodGroup=? AND date<=?',[place,bg,myDate],(err,rows)=>{
-        if(err){
-            console.log(err);
-        }
-        else if(rows.length == 0){
-            res.render('../recevingPage.ejs',{records: rows});
-        }
-        else{
-            rows.forEach((record)=>{
-                record.date = record.date.toString().substring(0,15);
-            });
-            res.render('../recevingPage.ejs',{records: rows});
-        }
-        connection.release();
-    });
+    connection.getConnection((err, connector) => {
+		if(err)
+			console.log(err)
+		else{
+			let selectQuery = 'SELECT * FROM patients WHERE address LIKE ? AND bloodGroup=? AND date<=?';
+			let query = mysql.format(selectQuery,[place,bg,myDate]);
+			connector.query(query, (err, rows)=>{
+				connector.release();
+				if(err)
+					console.log(err);
+                else if(rows.length == 0){
+                    res.render('../recevingPage.ejs',{records: rows});
+                }
+				else{
+                    rows.forEach((record)=>{
+                        record.date = record.date.toString().substring(0,15);
+                    });
+                    res.render('../recevingPage.ejs',{records: rows});
+                }
+			});
+		}
+	});
 });
 
 module.exports = receivingRouter;

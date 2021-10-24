@@ -7,7 +7,7 @@ const uploadingRouter = require('./routes/uploadingRouter');
 const adminRouter = require('./routes/adminRouter');
 
 const connection = mysql.mysqlPool;
-mysql.tableCreation();
+//mysql.tableCreation();
 mysql.addAdmin();
 
 const app = express();
