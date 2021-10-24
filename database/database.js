@@ -4,73 +4,105 @@ const bcrypt=require('bcrypt');
 
 const password=bcrypt.hashSync("Vuz83162",10);
 
-var mysqlConnection = mysql.createConnection({
+var mysqlPool = mysql.createPool({
 	host : 'remotemysql.com',
-	user: '2WbjCHT0R3',
-	password : 'b0TQjh75d9',
-	database : '2WbjCHT0R3'
+	user: 'tb4GpADoaH',
+	password : '3EV9hAN7Bn',
+	database : 'tb4GpADoaH'
 });
 
-mysqlConnection.connect((err) => {
+mysqlPool.getConnection((err, connection) => {
 	if(!err){
 		console.log('DB connection Success');
 	}
 	else{
 		console.log(err);
 	}
+	connection.release();
 });
 
 function tableCreation(){
-	mysqlConnection.query('CREATE TABLE 2WbjCHT0R3.patients (idpatients INT NOT NULL AUTO_INCREMENT,name VARCHAR(45) NOT NULL,address VARCHAR(200) NOT NULL,bloodGroup VARCHAR(7) NOT NULL,date DATE NOT NULL,phone VARCHAR(10) NOT NULL, PRIMARY KEY (idpatients))',
-	(err,rows) =>{
-		if(err){
-			console.log(err);
-		}
+	mysqlPool.getConnection((err, connection) => {
+		if(err)
+			console.log(err)
 		else{
-			console.log("Patient Table Created.");
+			var query = 'CREATE TABLE donars (idpatients INT NOT NULL AUTO_INCREMENT,name VARCHAR(45) NOT NULL,address VARCHAR(200) NOT NULL,bloodGroup VARCHAR(7) NOT NULL,date DATE NOT NULL,phone VARCHAR(10) NOT NULL, PRIMARY KEY (idpatients))';
+			connection.query(query, (err, rows)=>{
+				connection.release();
+				if(err)
+					console.log(err);
+				else
+					console.log('Donars Table Created!');
+			});
 		}
 	});
-	mysqlConnection.query('CREATE TABLE 2WbjCHT0R3.receivingusers (user VARCHAR(45) NOT NULL,password VARCHAR(70) NOT NULL,PRIMARY KEY (user))',
-	(err,rows) =>{
-		if(err){
-			console.log(err);
-		}
+
+	mysqlPool.getConnection((err, connection) => {
+		if(err)
+			console.log(err)
 		else{
-			console.log("Receiving Users Table Created.");
+			var query = 'CREATE TABLE receivingusers (user VARCHAR(45) NOT NULL,password VARCHAR(70) NOT NULL,PRIMARY KEY (user))';
+			connection.query(query, (err, rows)=>{
+				connection.release();
+				if(err)
+					console.log(err);
+				else
+					console.log('Receiving Users Table Created!');
+			});
 		}
 	});
-	mysqlConnection.query('CREATE TABLE 2WbjCHT0R3.uploadingusers (user VARCHAR(45) NOT NULL,password VARCHAR(70) NOT NULL,PRIMARY KEY (user))',
-	(err,rows) =>{
-		if(err){
-			console.log(err);
-		}
+
+	mysqlPool.getConnection((err, connection) => {
+		if(err)
+			console.log(err)
 		else{
-			console.log("Uploading Users Table Created.");
+			var query = 'CREATE TABLE uploadingusers (user VARCHAR(45) NOT NULL,password VARCHAR(70) NOT NULL,PRIMARY KEY (user))';
+			connection.query(query, (err, rows)=>{
+				connection.release();
+				if(err)
+					console.log(err);
+				else
+					console.log('Uploading Users Table Created!');
+			});
 		}
 	});
-	mysqlConnection.query('CREATE TABLE 2WbjCHT0R3.admins (user VARCHAR(45) NOT NULL,password VARCHAR(70) NOT NULL,PRIMARY KEY (user))',
-	(err,rows) =>{
-		if(err){
-			console.log(err);
-		}
+	
+	mysqlPool.getConnection((err, connection) => {
+		if(err)
+			console.log(err)
 		else{
-			console.log("Admins Users Table Created.");
+			var query = 'CREATE TABLE admins (user VARCHAR(45) NOT NULL,password VARCHAR(70) NOT NULL,PRIMARY KEY (user))';
+			connection.query(query, (err, rows)=>{
+				connection.release();
+				if(err)
+					console.log(err);
+				else
+					console.log('Uploading Users Table Created!');
+			});
 		}
 	});
 }
 
 function addAdmin(){
-	mysqlConnection.query('INSERT INTO admins SET ?',{user: "priyanshu", password: password},(err,rows)=>{
-		if(err){
-			console.log(err);
-		}
+	mysqlPool.getConnection((err, connection) => {
+		if(err)
+			console.log(err)
 		else{
-			console.log("priyanshu's user was created.");
+			let insertQuery = 'INSERT INTO admins SET (?,?)';
+			let query = mysql.format(insertQuery,["priyanshu", password]);
+			connection.query(query, (err, rows)=>{
+				connection.release();
+				if(err)
+					console.log(err);
+				else
+					console.log('Priyanshu Added as Admin!');
+			});
 		}
 	});
 }
 module.exports = {
-	mysqlConnection,
+	mysqlPool,
+	mysql,
 	tableCreation,
 	addAdmin
 };
