@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('C:/PlasmaDonation/database/database.js');
 const bcrypt = require('bcrypt');
-const connection = mysql.mysqlConnection;
+const connection = mysql.mysqlPool;
 
 const receivingRouter = express.Router();
 

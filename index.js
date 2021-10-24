@@ -6,9 +6,9 @@ const receivingRouter = require('./routes/receivingRouter');
 const uploadingRouter = require('./routes/uploadingRouter');
 const adminRouter = require('./routes/adminRouter');
 
-const connection = mysql.mysqlConnection;
-//mysql.tableCreation();
-//mysql.addAdmin();
+const connection = mysql.mysqlPool;
+mysql.tableCreation();
+mysql.addAdmin();
 
 const app = express();
 const port = 3000;
@@ -37,9 +37,19 @@ setInterval(()=> {
     date.setDate(day); 
     
     let myDate = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
-	connection.query('DELETE FROM patients WHERE date<=?',[myDate],(err,rows)=>{
-		if(err){
-			console.log(err);
+	connection.getConnection((err, connector) => {
+		if(err)
+			console.log(err)
+		else{
+			let delQuery = 'DELETE FROM donars WHERE date<=?';
+			let query = mysql.format(delQuery,[myDate]);
+			connector.query(query, (err, rows)=>{
+				connector.release();
+				if(err)
+					console.log(err);
+				else
+					console.log('Deleted the Non-Valid Donars for Today!');
+			});
 		}
 	});
 }, 86400000);

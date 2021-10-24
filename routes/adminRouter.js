@@ -1,7 +1,7 @@
 const path=require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('C:/PlasmaDonation/database/database.js');
+const mysqlConnection = require('C:/PlasmaDonation/database/database.js');
 const bcrypt = require('bcrypt');
 
 const adminRouter = express.Router();
@@ -10,7 +10,8 @@ adminRouter.use(express.static(path.join(__dirname + "/../")));
 adminRouter.use(bodyParser.json());
 adminRouter.use(bodyParser.urlencoded({extended: false}));
 
-const connection = mysql.mysqlConnection;
+const connection = mysqlConnection.mysqlPool;
+
 
 adminRouter.route('/')
 .all((req,res,next) => {
@@ -22,25 +23,32 @@ adminRouter.route('/')
     res.render('../login.ejs',{action: "admin", msg: ""}); 
 })
 .post((req, res, next) => {
-	connection.query("SELECT * FROM admins WHERE user=?",[req.body.username],(err,rows)=>{
-		connection.release();
-		if(err){
-			res.send("An error occured");
-			console.log(err);
-		}
-		else if(rows.length==0){
-			res.render('../login.ejs',{action: "admin", msg: "User Doesn't Exist!"});
-		}
+	connection.getConnection((err, connector) => {
+		if(err)
+			console.log(err)
 		else{
-			if(bcrypt.compareSync(req.body.password, rows[0].password)){
-				res.render('../adminPage.ejs',{msg: ""});
-			}
-			else{
-				res.render('../login.ejs',{action: "admin", msg: "Password Incorrect!"});
-			}
+			let selectQuery = 'SELECT * FROM admins WHERE user=?';
+			let query = mysql.format(selectQuery,[req.body.username]);
+			connector.query(query, (err, rows)=>{
+				connector.release();
+				if(err){
+					res.send("An Error Occured!");
+					console.log(err);
+				}
+				else if(rows.length==0){
+					res.render('../login.ejs',{action: "admin", msg: "User Doesn't Exist!"});
+				}
+				else{
+					if(bcrypt.compareSync(req.body.password, rows[0].password)){
+						res.render('../adminPage.ejs',{msg: ""});
+					}
+					else{
+						res.render('../login.ejs',{action: "admin", msg: "Password Incorrect!"});
+					}
+				}
+			});
 		}
 	});
-    
 });
 
 adminRouter.route('/edit')
@@ -49,46 +57,58 @@ adminRouter.route('/edit')
 	if(req.body.method == "add"){
 
 		var data={
-		user: req.body.name,
-		password: bcrypt.hashSync(req.body.password,10) 
+			user: req.body.name,
+			password: bcrypt.hashSync(req.body.password,10) 
 		};
-		var myQuery = "SELECT * FROM "+req.body.type+" WHERE user=?";
-		let msgs=[];
-	
-		connection.query(myQuery, req.body.name,(err,rows)=>{
-			if(err){
-				res.send("Error Occured");
-				console.log(err);
-			}
-			else if(rows.length>0){
-				res.render('../adminPage.ejs',{msg: "Username used!"});
-			}
+		connection.getConnection((err, connector) => {
+			if(err)
+				console.log(err)
 			else{
-				myQuery = "INSERT INTO "+req.body.type+" SET ?";
-				connection.query(myQuery,[data],(err,rows)=>{
-					if(err){
+				let selectQuery = "SELECT * FROM "+req.body.type+" WHERE user=?";
+				let query = mysql.format(selectQuery,[req.body.name]);
+				connector.query(query, (err, rows)=>{
+					if(err)
 						console.log(err);
+					else if(rows.length > 0){
+						res.render('../adminPage.ejs',{msg: "User Already Present!"});
 					}
 					else{
-						res.render('../adminPage.ejs',{msg: "User Added!"});
+						let insertQuery = "INSERT INTO "+req.body.type+" SET ?";
+						let insideQuery = mysql.format(insertQuery,[data]);
+						connector.query(insideQuery, (err, rows)=>{
+							if(err)
+								console.log("Error!")
+							else{
+								res.render('../adminPage.ejs',{msg: "User Added!"});
+							}
+						});
 					}
-					connection.release();
 				});
 			}
+			connector.release();
 		});
+		
 	}
 
 	else if(req.body.method == "delete"){
-		var myQuery = "DELETE FROM "+req.body.type+" WHERE user=?";
-		connection.query(myQuery,req.body.username,(err,rows)=>{
-			if(err){
-				res.send("Error Occured");
-				console.log(err);
-			}
+		connection.getConnection((err, connector) => {
+			if(err)
+				console.log(err)
 			else{
-				res.render('../adminPage.ejs',{msg: "User Deleted!"});
+				let delQuery = "DELETE FROM "+req.body.type+" WHERE user=?";
+				let query = mysql.format(delQuery,[req.body.username]);
+				connector.query(query, (err, rows)=>{
+					connector.release();
+					if(err)
+						console.log(err);
+					else if(rows.length() == 0){
+						res.render('../adminPage.ejs',{msg: "User Not Found!"});
+					}
+					else{
+						res.render('../adminPage.ejs',{msg: "User Deleted!"});
+					}
+				});
 			}
-			connection.release();
 		});
 	}
 });
