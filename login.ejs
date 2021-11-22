@@ -1,23 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-	<title>Login</title>
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="stylesheet" type="text/css" href="public/css/login.css">
-	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
-</head>
-<body>
+  <head>
+   
+    <script src="https://kit.fontawesome.com/eaf4cb5c87.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="public/css/home.css">
+	<title>Plasma Help Portal</title>
+  </head>
+
+  <body>
 	<div id="msgs">
 		<p id="msg"><%=msg%></p>
 	</div>
-	<div id="idPassword">
-		<h2>Login Details</h2>
-		<form action="/<%=action%>" method="post">
-			<input type="text" name="username" placeholder="Username"><br> 
-			<input type="password" name="password" placeholder="Password"><br>
-			<input type="submit" name="submit">
+	<div class="login-wrapper">
+		<form action="/<%=action%>" class="form" method="post">
+		  <img src="public/img/avatar.jpg" alt="">
+		  <h2>Login</h2>
+		  <div class="input-group">
+			<input type="text" name="username" id="loginUser" required>
+			<label for="loginUser">User Name</label>
+		  </div>
+		  <div class="input-group">
+			<input type="password" name="password" id="loginPassword" required>
+			<label for="loginPassword">Password</label>
+		  </div>
+		  <input type="submit" value="Login" class="submit-btn">
+		  <a href="#forgot-pw" class="forgot-pw">Forgot Password?</a>
 		</form>
-	</div>
-</body>
-<script src="public/js/login.js"></script>
+	
+		<div id="forgot-pw">
+		  <form action="" class="form">
+			<a href="#" class="close">&times;</a>
+			<h2>Reset Password</h2>
+			<div class="input-group">
+			  <input type="email" name="email" id="email" required>
+			  <label for="email">Email</label>
+			</div>
+			<input type="submit" value="Submit" class="submit-btn">
+		  </form>
+		</div>
+	  </div>
+
+  </body>
+  <script src="public/js/login.js"></script>
 </html>
