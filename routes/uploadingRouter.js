@@ -1,13 +1,13 @@
 const path=require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('C:/PlasmaDonation/database/database.js');
+const mysqlConnection = require('C:/PlasmaDonation/database/database.js');
 const xlsx = require('xlsx');
 const upload = require('express-fileupload');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 
-const connection = mysql.mysqlConnection;
+const connection = mysqlConnection.mysqlPool;
 
 const uploadingRouter = express.Router();
 
@@ -24,11 +24,13 @@ uploadingRouter.route('/')
     next();
 })
 .get((req,res,next) => {
-    res.render('../login.ejs',{action: "putData", msg: ""});
+    res.render('../login.ejs',{action: "register", msg: ""});
 })
 .post((req, res, next) => {
 	connection.getConnection((err, connector)=>{
-		connector.query("SELECT * FROM uploadingusers WHERE user=?",[req.body.username],(err,rows)=>{
+		let insertQuery = "INSERT INTO donors SET ?";
+		let insideQuery = mysql.format(insertQuery,[req]);
+		connector.query(insideQuery,(err,rows)=>{
 			connector.release();
 			if(err){
 				res.send("An error occured");
@@ -40,7 +42,6 @@ uploadingRouter.route('/')
 			else{
 				if(bcrypt.compareSync(req.body.password, rows[0].password)){
 					res.render('../uploadingPage.ejs',{msg: ""});
-	
 				}
 				else{
 					res.render('../login.ejs',{action: "putData", msg: "Password Incorrect!"});
