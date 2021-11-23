@@ -5,10 +5,10 @@ const bcrypt=require('bcrypt');
 const password=bcrypt.hashSync("Vuz83162",10);
 
 var mysqlPool = mysql.createPool({
-	host : 'remotemysql.com',
-	user: 'tb4GpADoaH',
-	password : '3EV9hAN7Bn',
-	database : 'tb4GpADoaH'
+	host : 'sql6.freesqldatabase.com',
+	user: 'sql6453439',
+	password : 'ihhHpYpUkj',
+	database : 'sql6453439'
 });
 
 mysqlPool.getConnection((err, connection) => {
@@ -26,7 +26,7 @@ function tableCreation(){
 		if(err)
 			console.log(err)
 		else{
-			var query = 'CREATE TABLE donars (idpatients INT NOT NULL AUTO_INCREMENT,name VARCHAR(45) NOT NULL,address VARCHAR(200) NOT NULL,bloodGroup VARCHAR(7) NOT NULL,date DATE NOT NULL,phone VARCHAR(10) NOT NULL, PRIMARY KEY (idpatients))';
+			var query = 'CREATE TABLE donars (idpatients INT NOT NULL AUTO_INCREMENT,name VARCHAR(45) NOT NULL,email VARCHAR(45) NOT NULL,age INT NOT NULL,password VARCHAR(20) NOT NULL,city VARCHAR(45) NOT NULL,state VARCHAR(45) NOT NULL,address VARCHAR(200) NOT NULL,bg VARCHAR(4) NOT NULL,date DATE NOT NULL,phone VARCHAR(10) NOT NULL, PRIMARY KEY (idpatients))';
 			connection.query(query, (err, rows)=>{
 				connection.release();
 				if(err)
@@ -48,21 +48,6 @@ function tableCreation(){
 					console.log(err);
 				else
 					console.log('Receiving Users Table Created!');
-			});
-		}
-	});
-
-	mysqlPool.getConnection((err, connection) => {
-		if(err)
-			console.log(err)
-		else{
-			var query = 'CREATE TABLE uploadingusers (user VARCHAR(45) NOT NULL,password VARCHAR(70) NOT NULL,PRIMARY KEY (user))';
-			connection.query(query, (err, rows)=>{
-				connection.release();
-				if(err)
-					console.log(err);
-				else
-					console.log('Uploading Users Table Created!');
 			});
 		}
 	});
