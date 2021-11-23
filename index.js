@@ -16,7 +16,7 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
 app.use('/getData', receivingRouter);
-app.use('/putData', uploadingRouter);
+app.use('/register', uploadingRouter);
 app.use('/admin', adminRouter);
 
 app.get('/', (req,res,next)=>{
