@@ -1,31 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Upload Xlsx</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="public/css/registration.css">
+    <title>Registration</title>
 </head>
 <body>
-	<div id="msgs">
-		<p id="msg"><%=msg%></p>
-	</div>
-	<div id="uploadingPage">
-		<form action="/putData/upload" enctype='multipart/form-data' method="post">
-			<input type="text" name="">
-			<input type="file" name="excelFile">
-			<input type="submit" name="submit">
-		</form>
-	</div>
+    <div class="container">
+        <div class="title">Registration</div>
+        <div class="content">
+        <form action="#">
+            <div class="user-details">
+                <div class="input-box">
+                        <span class="details">Full Name</span>
+                        <input type="text"  placeholder="Enter your name" required>
+                </div>
+          
+                <div class="input-box">
+                        <span class="details">Age</span>
+                        <input type="text"  placeholder="Enter your age" required>
+                </div>
+         
+                <div class="input-box">
+                        <span class="details">E-mail </span>
+                        <input type="email" placeholder="Enter your email " required>
+                </div>
+           
+                <div class="input-box">
+                        <span class="details">Address</span>
+                        <input type="text" placeholder="Enter your address" required>
+                </div>
+
+                <div class="input-box">
+                    <span class="details">Password</span>
+                    <input type="password" placeholder="Enter your password" required>
+            </div>
+         
+                <div class="input-box">
+                        <span class="details">City </span>
+                        <input type="text" placeholder="Enter your city" required>
+                </div>
+          
+                <div class="input-box">
+                        <span class="details">Blood Group</span>
+                        <input type="text" placeholder="Enter your blood group" required>
+                </div>
+         
+                <div class="input-box">
+                        <span class="details">phone</span>
+                        <input type="tel" placeholder="Enter your phone" required>
+                </div>
+          
+                <div class="input-box">
+                        <span class="details">Last date of disease</span>
+                        <input type="datetime-local" placeholder="Enter details here" required>
+                </div>
+            </div>
+            
+
+            <div class="gender-details">
+                <input type="radio" name="gender" id="dot-1">
+                <input type="radio" name="gender" id="dot-2">
+                <input type="radio" name="gender" id="dot-3">
+                <span class="gender-title">Gender</span>
+                <div class="category">
+                    <label for="dot-1">
+                        <span class="dot one"></span>
+                        <span class="gender">Male</span>
+                    </label>
+                    <label for="dot-2">
+                        <span class="dot two"></span>
+                        <span class="gender">Female</span>
+                    </label>
+                    <label for="dot-3">
+                        <span class="dot three"></span>
+                        <span class="gender">Others</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="button">
+                <input type="submit" value="Registration">
+            </div>
+        </form>
+    </div>
+    </div>
 </body>
 </html>
-
-/*
-name
-age
-gender
-email 
-password
-address city state
-blood group 
-phone
-last date of disease 
-medical clearance file
-*/
