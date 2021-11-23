@@ -63,7 +63,7 @@ body {
 }
 
 #msg {
-  color: #4caab3;
+  color: #309282;
   border-bottom: red 3px solid;
   animation: forwards 5s msg;
 }
