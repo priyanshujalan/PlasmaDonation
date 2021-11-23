@@ -1,0 +1,138 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.banner {
+  width: 100%;
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)),
+    url(../img/pagehome.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.navbar {
+  width: 85%;
+  margin: auto;
+  padding: 35px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 60px;
+  cursor: pointer;
+  border-radius: 30px;
+}
+
+.navbar ul li {
+  list-style: none;
+  display: inline-block;
+  margin: 0 20px;
+  position: relative;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.navbar ul li a:hover {
+  color: #f71735;
+}
+
+.navbar ul li::after {
+  content: "";
+  height: 3px;
+  width: 0;
+  background: #b80202;
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  transition: 0.5s;
+}
+.navbar ul li:hover:after {
+  width: 100%;
+}
+
+.content {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+.content h1 {
+  font-size: 70px;
+  margin-top: 80x;
+  position: relative;
+  animation: text 3s 1;
+}
+
+.content p {
+  margin: 20px auto;
+  font-weight: 100;
+  line-height: 25px;
+  position: relative;
+  animation: text 2s;
+}
+
+@keyframes text {
+  0% {
+    color: black;
+    margin-bottom: -20px;
+  }
+  30% {
+    letter-spacing: 8px;
+    margin-bottom: -20;
+  }
+  80% {
+    letter-spacing: 8px;
+    margin-bottom: -20;
+  }
+}
+
+button {
+  width: 200px;
+  padding: 15px 0;
+  text-align: center;
+  margin: 20px 10px;
+  border-radius: 25px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background-color: #ff7878;
+  background-image: linear-gradient(315deg, #ff7878 0%, #ff0000 74%);
+  position: relative;
+  overflow: hidden;
+}
+
+span {
+  background: #313;
+  height: 100%;
+  width: 0;
+  border-radius: 25px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+  transform: 0.5s;
+}
+button:hover span {
+  width: 100%;
+}
+
+button:hover {
+  background-color: #990000;
+  background-image: linear-gradient(147deg, #990000 0%, #ff0000 74%);
+  border: none;
+}
