@@ -1,7 +1,11 @@
 const path=require('path');
+
 const express = require('express');
+
 const bodyParser = require('body-parser');
+
 const mysqlConnection = require('C:/PlasmaDonation/database/database.js');
+
 const bcrypt = require('bcrypt');
 
 const connection = mysqlConnection.mysqlPool;
