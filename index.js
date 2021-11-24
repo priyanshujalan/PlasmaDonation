@@ -1,16 +1,26 @@
 const path=require('path');
+
 const express = require('express');
+
 const bodyParser = require('body-parser');
+
 const mysqlConnection = require('./database/database');
+
 const receivingRouter = require('./routes/receivingRouter');
+
 const uploadingRouter = require('./routes/uploadingRouter');
+
 const adminRouter = require('./routes/adminRouter');
+
 const updatingRouter = require('./routes/updatingRouter');
+
 const donorLoginRouter = require('./routes/donorLoginRouter');
 
 const connection = mysqlConnection.mysqlPool;
+
 //mysql.tableCreation();
 //mysql.addAdmin();
+//mysql create
 
 const app = express();
 const port = 3000;
@@ -36,6 +46,7 @@ app.listen(port, () => {
 });
 
 setInterval(()=> {
+	
 	let date= new Date();
     let day = date.getDate()-42;
     date.setDate(day); 
@@ -56,4 +67,5 @@ setInterval(()=> {
 			});
 		}
 	});
+	
 }, 86400000);
