@@ -4,7 +4,7 @@ const bcrypt=require('bcrypt');
 
 const password=bcrypt.hashSync("Vuz83162",10);
 
-
+//mysqlPool defined
 var mysqlPool = mysql.createPool({
 	host : 'sql6.freesqldatabase.com',
 	user: 'sql6453439',
