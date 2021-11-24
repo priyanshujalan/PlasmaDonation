@@ -1,14 +1,16 @@
 const path=require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('./database/database');
+const mysqlConnection = require('./database/database');
 const receivingRouter = require('./routes/receivingRouter');
 const uploadingRouter = require('./routes/uploadingRouter');
 const adminRouter = require('./routes/adminRouter');
+const updatingRouter = require('./routes/updatingRouter');
+const donorLoginRouter = require('./routes/donorLoginRouter');
 
-const connection = mysql.mysqlPool;
+const connection = mysqlConnection.mysqlPool;
 //mysql.tableCreation();
-mysql.addAdmin();
+//mysql.addAdmin();
 
 const app = express();
 const port = 3000;
@@ -18,6 +20,8 @@ app.use(express.static(__dirname));
 app.use('/getData', receivingRouter);
 app.use('/register', uploadingRouter);
 app.use('/admin', adminRouter);
+app.use('/update', updatingRouter);
+app.use('/donor', donorLoginRouter)
 
 app.get('/', (req,res,next)=>{
 
