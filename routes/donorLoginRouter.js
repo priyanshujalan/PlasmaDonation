@@ -6,13 +6,13 @@ const bcrypt = require('bcrypt');
 
 const connection = mysqlConnection.mysqlPool;
 
-const updatingRouter = express.Router();
+const donorLoginRouter = express.Router();
 
-updatingRouter.use(express.static(path.join(__dirname + "/../")));
-updatingRouter.use(bodyParser.json());
-updatingRouter.use(bodyParser.urlencoded({extended: false}));
+donorLoginRouter.use(express.static(path.join(__dirname + "/../")));
+donorLoginRouter.use(bodyParser.json());
+donorLoginRouter.use(bodyParser.urlencoded({extended: false}));
 
-updatingRouter.route('/')
+donorLoginRouter.route('/')
 .all((req,res,next) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
@@ -49,3 +49,5 @@ updatingRouter.route('/')
 		}
 	});
 });
+
+module.exports = donorLoginRouter;

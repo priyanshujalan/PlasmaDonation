@@ -42,4 +42,5 @@ updatingRouter.route('/')
 		}
 	});
 });
+module.exports = updatingRouter;
 
