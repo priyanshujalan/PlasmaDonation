@@ -4,6 +4,7 @@ const bcrypt=require('bcrypt');
 
 const password=bcrypt.hashSync("Vuz83162",10);
 
+
 var mysqlPool = mysql.createPool({
 	host : 'sql6.freesqldatabase.com',
 	user: 'sql6453439',
@@ -68,6 +69,7 @@ function tableCreation(){
 	});
 }
 
+
 function addAdmin(){
 	mysqlPool.getConnection((err, connection) => {
 		if(err)
@@ -89,6 +91,7 @@ function addAdmin(){
 		}
 	});
 }
+
 module.exports = {
 	mysqlPool,
 	mysql,
