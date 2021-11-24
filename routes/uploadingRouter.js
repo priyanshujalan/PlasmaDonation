@@ -2,9 +2,6 @@ const path=require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysqlConnection = require('C:/PlasmaDonation/database/database.js');
-const xlsx = require('xlsx');
-const upload = require('express-fileupload');
-const fs = require('fs');
 const bcrypt = require('bcrypt');
 
 const connection = mysqlConnection.mysqlPool;
@@ -15,8 +12,6 @@ uploadingRouter.use(express.static(path.join(__dirname + "/../")));
 uploadingRouter.use(bodyParser.json());
 uploadingRouter.use(bodyParser.urlencoded({extended: false}));
 
-uploadingRouter.use(upload());
-
 uploadingRouter.route('/')
 .all((req,res,next) => {
     res.statusCode = 200;
@@ -24,7 +19,7 @@ uploadingRouter.route('/')
     next();
 })
 .get((req,res,next) => {
-    res.render('../login.ejs',{action: "register", msg: ""});
+    res.render('../registration.ejs');
 })
 .post((req, res, next) => {
 	connection.getConnection((err, connector)=>{
@@ -36,16 +31,8 @@ uploadingRouter.route('/')
 				res.send("An error occured");
 				console.log(err);
 			}
-			else if(rows.length==0){
-				res.render('../login.ejs',{action: "putData", msg: "User Doesn't Exist!"});
-			}
 			else{
-				if(bcrypt.compareSync(req.body.password, rows[0].password)){
-					res.render('../uploadingPage.ejs',{msg: ""});
-				}
-				else{
 					res.render('../login.ejs',{action: "putData", msg: "Password Incorrect!"});
-				}
 			}
 		});
 	}); 
