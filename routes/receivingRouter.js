@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const mysqlConnection = require('C:/PlasmaDonation/database/database.js');
 const bcrypt = require('bcrypt');
 const connection = mysqlConnection.mysqlPool;
-
 const receivingRouter = express.Router();
 
 receivingRouter.use(express.static(path.join(__dirname + "/../")));
@@ -44,6 +43,7 @@ receivingRouter.route('/')
         }
     });
 });
+
 
 receivingRouter.route('/data')
 .post((req, res, next) => {
