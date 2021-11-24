@@ -21,7 +21,7 @@ app.use('/getData', receivingRouter);
 app.use('/register', uploadingRouter);
 app.use('/admin', adminRouter);
 app.use('/update', updatingRouter);
-app.use('/donor', donorLoginRouter)
+app.use('/donor', donorLoginRouter);
 
 app.get('/', (req,res,next)=>{
 
